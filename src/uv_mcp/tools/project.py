@@ -13,6 +13,7 @@ from uv_mcp.models import (
     BumpResult,
     ExportResult,
     ManifestResult,
+    ProjectVersion,
     PublishResult,
 )
 from uv_mcp.tools.common import DESTRUCTIVE, IDEMPOTENT, READ_ONLY, services
@@ -343,3 +344,62 @@ def format_code(ctx: Context, path: str | None = None) -> str:
     return services(ctx).uv.run_uv_command(
         ["tool", "run", "ruff", "format", path or "."]
     )
+
+
+@app.tool(name="check")
+def check_project(
+    ctx: Context,
+    project_path: str | None = None,
+    fix: bool = False,
+    locked: bool = False,
+    frozen: bool = False,
+    no_sync: bool = False,
+    python: str | None = None,
+    script: str | None = None,
+) -> str:
+    """Run checks on the project.
+
+    Args:
+        project_path: Optional project working directory.
+        fix: Apply safe fixes to resolve type-checking errors.
+        locked: Assert that the lockfile will remain unchanged.
+        frozen: Check without updating the lockfile.
+        no_sync: Avoid syncing the virtual environment.
+        python: Python interpreter to use for the project environment.
+        script: Run checks for the specified PEP 723 script instead.
+        ctx: FastMCP request context.
+
+    Returns:
+        Check output.
+    """
+    command = ["check"]
+    if fix:
+        command.append("--fix")
+    if locked:
+        command.append("--locked")
+    if frozen:
+        command.append("--frozen")
+    if no_sync:
+        command.append("--no-sync")
+    if python:
+        command.extend(["--python", python])
+    if script:
+        command.extend(["--script", script])
+    return services(ctx).uv.run_uv_command(command, cwd=project_path)
+
+
+@app.tool(name="project_version", annotations=READ_ONLY)
+def project_version(ctx: Context, project_path: str | None = None) -> ProjectVersion:
+    """Read the current project version.
+
+    Args:
+        project_path: Optional project working directory.
+        ctx: FastMCP request context.
+
+    Returns:
+        The project's package name and version.
+    """
+    document = services(ctx).uv.run_uv_json(
+        ["version", "--output-format", "json"], cwd=project_path
+    )
+    return ProjectVersion(**document)

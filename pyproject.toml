@@ -4,7 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "uv-mcp"
-version = "0.1.0"
+version = "0.2.0"
 description = "Model Context Protocol (MCP) server for interacting with Python installations via uv"
 readme = "README.md"
 license = { text = "MIT" }
@@ -28,7 +28,6 @@ optional-dependencies.dev = [ "mypy", "pytest" ]
 urls."Bug Tracker" = "https://github.com/yriveiro/uv-mcp/issues"
 urls.Homepage = "https://github.com/yriveiro/uv-mcp"
 scripts.uv-mcp = "uv_mcp.cli:run"
-scripts.uv_mcp = "uv_mcp.cli:run"
 
 [dependency-groups]
 dev = [

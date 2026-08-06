@@ -111,9 +111,16 @@ Both repair tools are destructive — confirm with the user first.
 
 - `pip_compile(input_file, output_file?, python?)` to pin requirements
 - `pip_sync(requirements_file)` to install them (destructive)
-- `pip_list(venv_path?)`, `pip_freeze(venv_path?)` to inspect
+- `pip_list(venv_path?)`, `outdated(venv_path?)`, `pip_freeze(venv_path?)` to inspect
+- `pip_show(packages, venv_path?)`, `pip_tree(venv_path?)`, `pip_check(venv_path?)` for environment inspection
 - `compare_environments(env1, env2)` to diff two venvs
 - `create_virtualenv(path, packages?)` for ad-hoc venvs
+
+### Project and workspace inspection
+
+- `check(project_path?, fix?)` to validate project metadata and dependencies
+- `project_version(project_path?)` to read the current project version
+- `workspace_metadata()`, `workspace_list()`, `workspace_dir(package?)` to inspect workspaces
 
 ### Look up uv documentation
 

@@ -3,7 +3,7 @@
 from fastmcp import Context
 
 from uv_mcp.app import app
-from uv_mcp.models import Package
+from uv_mcp.models import OutdatedPackage, Package
 from uv_mcp.tools.common import DESTRUCTIVE, READ_ONLY, services
 
 
@@ -69,6 +69,62 @@ def pip_list(ctx: Context, venv_path: str | None = None) -> list[Package]:
         Installed package records.
     """
     return services(ctx).uv.list_installed_packages(venv_path)
+
+
+@app.tool(name="outdated", annotations=READ_ONLY)
+def outdated(ctx: Context, venv_path: str | None = None) -> list[OutdatedPackage]:
+    """List installed packages with newer versions available.
+
+    Args:
+        venv_path: Optional target virtual environment.
+        ctx: FastMCP request context.
+
+    Returns:
+        Outdated package records with their latest versions.
+    """
+    return services(ctx).uv.get_outdated_packages(venv_path)
+
+
+@app.tool(name="pip_show", annotations=READ_ONLY)
+def pip_show(
+    ctx: Context,
+    packages: list[str],
+    venv_path: str | None = None,
+) -> str:
+    """Show information about installed packages."""
+    return services(ctx).uv.run_uv_command(
+        ["pip", "show", *services(ctx).uv._python_flag(venv_path), *packages]
+    )
+
+
+@app.tool(name="pip_tree", annotations=READ_ONLY)
+def pip_tree(
+    ctx: Context,
+    venv_path: str | None = None,
+    depth: int | None = None,
+    package: str | None = None,
+    invert: bool = False,
+    outdated: bool = False,
+) -> str:
+    """Display the dependency tree for an environment."""
+    command = ["pip", "tree", *services(ctx).uv._python_flag(venv_path)]
+    if depth is not None:
+        command.extend(["--depth", str(depth)])
+    if package:
+        command.extend(["--package", package])
+    if invert:
+        command.append("--invert")
+    if outdated:
+        command.append("--outdated")
+    return services(ctx).uv.run_uv_command(command)
+
+
+@app.tool(name="pip_check", annotations=READ_ONLY)
+def pip_check(ctx: Context, venv_path: str | None = None) -> str:
+    """Verify that installed packages have compatible dependencies."""
+    return services(ctx).uv.run_uv_command(
+        ["pip", "check", *services(ctx).uv._python_flag(venv_path)], check=False
+    )
 
 
 @app.tool(name="pip_compile")

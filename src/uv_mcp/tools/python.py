@@ -12,7 +12,7 @@ from uv_mcp.models import (
     PythonListResult,
     PythonOperationResult,
 )
-from uv_mcp.tools.common import DESTRUCTIVE, READ_ONLY, services
+from uv_mcp.tools.common import DESTRUCTIVE, IDEMPOTENT, READ_ONLY, services
 
 
 def parse_python_list(output: str) -> PythonListResult:
@@ -171,3 +171,9 @@ def python_dir(ctx: Context, which: str = "default") -> PythonDirResult:
         raise ValueError("which must be 'default' or 'bin'") from e
     path = services(ctx).uv.run_uv_command(command).strip()
     return PythonDirResult(which=which, path=path)
+
+
+@app.tool(name="python_update_shell", annotations=IDEMPOTENT)
+def python_update_shell(ctx: Context) -> str:
+    """Ensure the uv-managed Python executable directory is on ``PATH``."""
+    return services(ctx).uv.run_uv_command(["python", "update-shell"])
