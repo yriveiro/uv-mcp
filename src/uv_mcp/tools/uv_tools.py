@@ -6,7 +6,7 @@ from fastmcp import Context
 
 from uv_mcp.app import app
 from uv_mcp.models import ToolInfo, ToolListResult, ToolOperationResult
-from uv_mcp.tools.common import DESTRUCTIVE, READ_ONLY, services
+from uv_mcp.tools.common import DESTRUCTIVE, IDEMPOTENT, READ_ONLY, services
 from uv_mcp.uv_wrapper import spec
 
 _TOOL_HEADER = re.compile(r"^(?P<name>\S+)\s+v(?P<version>\S+)$")
@@ -120,3 +120,18 @@ def tool_uninstall(ctx: Context, name: str) -> ToolOperationResult:
         success=True,
         message=output.strip() or "Tool uninstalled successfully.",
     )
+
+
+@app.tool(name="tool_dir", annotations=READ_ONLY)
+def tool_dir(ctx: Context, bin: bool = False) -> str:
+    """Show the uv tools directory."""
+    command = ["tool", "dir"]
+    if bin:
+        command.append("--bin")
+    return services(ctx).uv.run_uv_command(command).strip()
+
+
+@app.tool(name="tool_update_shell", annotations=IDEMPOTENT)
+def tool_update_shell(ctx: Context) -> str:
+    """Ensure the uv tool executable directory is on ``PATH``."""
+    return services(ctx).uv.run_uv_command(["tool", "update-shell"])

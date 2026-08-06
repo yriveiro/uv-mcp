@@ -42,17 +42,25 @@ uv-mcp implements the [Model Context Protocol](https://modelcontextprotocol.io) 
 - `remove(package_name: str)` - Remove dependencies from the project
 - `sync(dry_run: bool)` - Install all declared dependencies, uninstall anything not declared
 - `lock()` - Update the project's lockfile
+- `check(project_path: Optional[str], fix: bool)` - Check project metadata and dependencies
+- `project_version(project_path: Optional[str])` - Read the project version
 - `pip(command: str[])` - Run a pip command
 - `create_virtualenv(path: str, packages: str[])` - Create a virtual environment
 - `compare_environments(env1: str, env2: str)` - Compare packages in two environments
 - `pip_install(package_name: str, version: Optional[str], venv_path: Optional[str])` - Install a package
 - `pip_uninstall(package_name: str, venv_path: Optional[str])` - Uninstall a package
 - `pip_list(venv_path: Optional[str])` - List packages in an optional target environment
+- `outdated(venv_path: Optional[str])` - List installed packages with newer versions available
+- `pip_show(packages: str[], venv_path: Optional[str])` - Show installed package metadata
+- `pip_tree(venv_path: Optional[str])` / `pip_check(venv_path: Optional[str])` - Inspect environment dependencies
 - `update_cache(force: bool)` - Refresh the UV documentation cache
 - `search_documentation(query: str)` - Search cached UV documentation
 - `python_list()` / `python_install(version)` / `python_pin(version)` - Manage Python installations
 - `python_find(request)` / `python_upgrade(version)` / `python_uninstall(version)` - Resolve and update Python versions
 - `tool_install(package)` / `tool_upgrade(name)` / `tool_list()` / `tool_uninstall(name)` - Manage uv tools
+- `tool_dir(bin: bool)` / `tool_update_shell()` - Inspect and configure the uv tools directory
+- `python_update_shell()` - Configure the uv-managed Python directory on `PATH`
+- `workspace_metadata()` / `workspace_list()` / `workspace_dir(package?)` - Inspect workspaces
 - `audit(...)` / `tool_audit(...)` - Audit project dependencies or installed uv tools for vulnerabilities
 - `cache_clean(package)` / `cache_prune(ci)` / `cache_dir()` / `cache_size()` - Manage the uv cache
 - `diagnose_environment(project_path)` / `repair_environment(project_path)` / `self_heal(project_path)` - Inspect and repair environments

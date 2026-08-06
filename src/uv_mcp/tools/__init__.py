@@ -10,6 +10,7 @@ from uv_mcp.tools import (
     self_tools,
     uv_cache,
     uv_tools,
+    workspace,
 )
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     "self_tools",
     "uv_cache",
     "uv_tools",
+    "workspace",
 ]

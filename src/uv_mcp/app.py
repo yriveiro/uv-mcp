@@ -56,6 +56,6 @@ app = FastMCP(
         "the cached UV documentation. Audit projects and installed tools "
         "for known vulnerabilities and adverse package statuses."
     ),
-    version="0.1.0",
+    version="0.2.0",
     lifespan=lifespan,
 )

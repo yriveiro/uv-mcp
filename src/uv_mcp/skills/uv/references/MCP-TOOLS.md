@@ -25,6 +25,8 @@ in the current working directory unless a `project_path` argument is given.
 | `manifest` | `manifest(project_path?)` | Parse `pyproject.toml` into JSON (read-only) |
 | `dependency_tree` | `dependency_tree(depth?, project_path?)` | Show the dependency tree (read-only) |
 | `format_code` | `format_code(path?)` | Format Python code with ephemeral Ruff |
+| `check` | `check(project_path?, fix?, locked?, frozen?, no_sync?, python?, script?)` | Run project checks |
+| `project_version` | `project_version(project_path?)` | Read the project version (read-only) |
 
 ## Pip workflows (`pip` domain)
 
@@ -34,6 +36,10 @@ in the current working directory unless a `project_path` argument is given.
 | `pip_install` | `pip_install(package_name, version?, venv_path?)` | Install into a venv |
 | `pip_uninstall` | `pip_uninstall(package_name, venv_path?)` | Uninstall from a venv (destructive) |
 | `pip_list` | `pip_list(venv_path?)` | List installed packages (read-only) |
+| `outdated` | `outdated(venv_path?)` | List installed packages with newer versions available (read-only) |
+| `pip_show` | `pip_show(packages, venv_path?)` | Show installed package metadata (read-only) |
+| `pip_tree` | `pip_tree(venv_path?, depth?, package?, invert?, outdated?)` | Display an environment dependency tree (read-only) |
+| `pip_check` | `pip_check(venv_path?)` | Verify installed package compatibility (read-only) |
 | `pip_compile` | `pip_compile(input_file, output_file?, python?)` | Pin an input requirements file |
 | `pip_sync` | `pip_sync(requirements_file)` | Sync a venv to a requirements file (destructive) |
 | `pip_freeze` | `pip_freeze(venv_path?)` | Freeze installed packages (read-only) |
@@ -49,6 +55,7 @@ in the current working directory unless a `project_path` argument is given.
 | `python_upgrade` | `python_upgrade(version)` | Reinstall a managed Python (`--reinstall`) |
 | `python_uninstall` | `python_uninstall(version)` | Remove a managed Python (destructive) |
 | `python_dir` | `python_dir(which: "default"\|"bin")` | Show a managed Python directory (read-only) |
+| `python_update_shell` | `python_update_shell()` | Add the managed Python directory to `PATH` (idempotent) |
 
 ## uv tools (`uv_tools` domain)
 
@@ -58,6 +65,16 @@ in the current working directory unless a `project_path` argument is given.
 | `tool_upgrade` | `tool_upgrade(name?)` | Upgrade one or all uv tools |
 | `tool_list` | `tool_list()` | List installed uv tools (read-only) |
 | `tool_uninstall` | `tool_uninstall(name)` | Remove a uv tool (destructive) |
+| `tool_dir` | `tool_dir(bin?)` | Show the uv tools directory (read-only) |
+| `tool_update_shell` | `tool_update_shell()` | Add the uv tools directory to `PATH` (idempotent) |
+
+## Workspace (`workspace` domain)
+
+| Tool | Signature | Behavior |
+|---|---|---|
+| `workspace_metadata` | `workspace_metadata(project_path?, script?)` | View workspace metadata (read-only) |
+| `workspace_list` | `workspace_list(project_path?, paths?, scripts?)` | List workspace members (read-only) |
+| `workspace_dir` | `workspace_dir(project_path?, package?)` | Show a workspace member path (read-only) |
 
 ## Cache (`uv_cache` domain)
 

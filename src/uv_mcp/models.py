@@ -226,6 +226,14 @@ class ManifestResult(BaseModel):
     content: dict[str, Any]
 
 
+class ProjectVersion(BaseModel):
+    """The version of a project as reported by ``uv version``."""
+
+    package_name: str
+    version: str
+    commit_info: dict[str, Any] | None = None
+
+
 class SelfVersionResult(BaseModel):
     """The installed uv version."""
 
