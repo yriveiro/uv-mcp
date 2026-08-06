@@ -31,7 +31,9 @@ async def lifespan(_server: FastMCP) -> AsyncIterator[ServerContext]:
     """
     settings = Settings()
     configure_logging(settings)
-    docs = CacheManager(Path(settings.cache_dir) if settings.cache_dir else None)
+    docs = CacheManager(
+        cache_dir=Path(settings.cache_dir) if settings.cache_dir else None
+    )
     await docs.initialize()
     yield ServerContext(
         uv=UVWrapper(

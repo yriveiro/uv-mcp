@@ -65,7 +65,7 @@ def test_documentation_parsers_extract_structured_content() -> None:
 
 @pytest.mark.anyio
 async def test_cache_manager_round_trip_and_search(tmp_path) -> None:
-    manager = CacheManager(tmp_path)
+    manager = CacheManager(cache_dir=tmp_path)
     await manager.update_version({"version": "1.0"})
     await manager.update_section(
         "cli",
@@ -93,7 +93,7 @@ async def test_cache_manager_round_trip_and_search(tmp_path) -> None:
 
 @pytest.mark.anyio
 async def test_cache_initialize_skips_existing_cache(tmp_path, monkeypatch) -> None:
-    manager = CacheManager(tmp_path)
+    manager = CacheManager(cache_dir=tmp_path)
     await manager.update_version({"version": "1.0"})
 
     async def fail() -> dict[str, str]:
@@ -105,7 +105,7 @@ async def test_cache_initialize_skips_existing_cache(tmp_path, monkeypatch) -> N
 
 @pytest.mark.anyio
 async def test_cache_validity(tmp_path, monkeypatch) -> None:
-    manager = CacheManager(tmp_path)
+    manager = CacheManager(cache_dir=tmp_path)
     await manager.update_version({"version": "1.0"})
 
     async def current() -> dict[str, str]:
