@@ -91,7 +91,7 @@ Install the bundled Agent Skill into a project for agents that discover skills
 from `.agents/skills`:
 
 ```bash
-uvx uv-mcp skill install uv
+uvx uv-mcp skill install uv-mcp
 ```
 
 Use `--target /path/to/project` to select another project directory, or
