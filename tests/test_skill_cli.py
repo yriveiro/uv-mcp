@@ -9,14 +9,14 @@ from uv_mcp.cli.skills import bundled_skill_names, install_skill
 runner = CliRunner()
 
 
-def test_bundled_skill_names_include_uv() -> None:
-    assert "uv" in bundled_skill_names()
+def test_bundled_skill_names_include_uv_mcp() -> None:
+    assert "uv-mcp" in bundled_skill_names()
 
 
 def test_install_skill_copies_to_agents_layout(tmp_path: Path) -> None:
-    destination, files = install_skill("uv", tmp_path)
+    destination, files = install_skill("uv-mcp", tmp_path)
 
-    assert destination == tmp_path / ".agents" / "skills" / "uv"
+    assert destination == tmp_path / ".agents" / "skills" / "uv-mcp"
     assert (destination / "SKILL.md").is_file()
     assert any(path.name == "MCP-TOOLS.md" for path in destination.rglob("*"))
     assert files == sorted(
@@ -27,12 +27,12 @@ def test_install_skill_copies_to_agents_layout(tmp_path: Path) -> None:
 
 
 def test_install_skill_requires_force_for_existing(tmp_path: Path) -> None:
-    install_skill("uv", tmp_path)
+    install_skill("uv-mcp", tmp_path)
 
     with pytest.raises(ValueError, match="already installed"):
-        install_skill("uv", tmp_path)
+        install_skill("uv-mcp", tmp_path)
 
-    install_skill("uv", tmp_path, force=True)
+    install_skill("uv-mcp", tmp_path, force=True)
 
 
 def test_install_unknown_skill_raises(tmp_path: Path) -> None:
@@ -41,10 +41,12 @@ def test_install_unknown_skill_raises(tmp_path: Path) -> None:
 
 
 def test_skill_install_via_cli(tmp_path: Path) -> None:
-    result = runner.invoke(app, ["skill", "install", "uv", "--target", str(tmp_path)])
+    result = runner.invoke(
+        app, ["skill", "install", "uv-mcp", "--target", str(tmp_path)]
+    )
 
     assert result.exit_code == 0
-    assert (tmp_path / ".agents" / "skills" / "uv" / "SKILL.md").is_file()
+    assert (tmp_path / ".agents" / "skills" / "uv-mcp" / "SKILL.md").is_file()
 
 
 def test_skill_install_unknown_returns_error(tmp_path: Path) -> None:

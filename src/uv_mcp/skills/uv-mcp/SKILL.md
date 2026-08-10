@@ -1,5 +1,5 @@
 ---
-name: uv
+name: uv-mcp
 description: Manage Python projects and environments with uv (Rust-based pip/poetry/pyenv replacement). Use in Python projects (pyproject.toml, uv.lock, or .py files) when dependency management, virtual environments, package installation, script execution, or Python version management is needed. Prefers the uv-mcp tools (run, init, add, sync, lock, audit, tool_audit, pip_*, python_*, tool_*, diagnose_environment) combined into complete workflows; falls back to the uv CLI via bash. DO NOT load in JavaScript, TypeScript, or any non-Python project.
 license: MIT
 compatibility: Requires the uv CLI (>=0.12.2) installed and the uv-mcp server tools available in the MCP tool context.
@@ -10,7 +10,7 @@ metadata:
   version: "1.0.0"
 ---
 
-# UV Skill
+# uv-mcp Skill
 
 UV is a fast Python package/project manager (Rust). Replaces pip, pipx, poetry,
 pyenv, virtualenv. This skill combines the uv-mcp server tools into complete,
